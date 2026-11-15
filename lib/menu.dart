@@ -12,6 +12,11 @@ class MyHomePage extends StatelessWidget {
     ItemHomePage("Tambah Proyek", Icons.add_circle, Colors.blue),
   ];
 
+  final List<ItemHomePage> experienceItems = [
+    ItemHomePage("Lihat Experience", Icons.cases_rounded, Colors.green),
+    ItemHomePage("Tambah Experience", Icons.add_circle, Colors.amber),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,6 +96,43 @@ class MyHomePage extends StatelessWidget {
                           crossAxisCount: 2,
                           shrinkWrap: true,
                           children: projectItems.map((ItemHomePage item) {
+                            return ItemCard(item);
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.all(2),
+                            child: const Text(
+                              "Experince Section",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+
+                        child: GridView.count(
+                          primary: true,
+                          childAspectRatio: 16 / 9,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          children: experienceItems.map((ItemHomePage item) {
                             return ItemCard(item);
                           }).toList(),
                         ),
