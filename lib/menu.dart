@@ -54,16 +54,17 @@ class MyHomePage extends StatelessWidget {
             Center(
               child: Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Text(
-                      "Selamat datang di myportfolio mobile",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
+                  // const Padding(
+                  //   padding: EdgeInsets.only(top: 16),
+                  //   child: Text(
+                  //     "Selamat datang di myportfolio mobile",
+                  //     style: TextStyle(
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 18,
+                  //       color: Colors.white,
+                  //     ),
+                  //   ),
+                  // ),
 
                   Column(
                     children: [
