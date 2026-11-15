@@ -28,17 +28,24 @@ class MyHomePage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InfoCard(title: "NPM", content: npm),
-                InfoCard(title: "Name", content: name),
-                InfoCard(title: "Class", content: kelas),
-              ],
-            ),
 
-            const SizedBox(height: 16),
+          children: [
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: InfoCard(title: "Name", content: name),
+                  ),
+                  Expanded(
+                    child: InfoCard(title: "NPM", content: npm),
+                  ),
+                  Expanded(
+                    child: InfoCard(title: "Class", content: kelas),
+                  ),
+                ],
+              ),
+            ),
 
             Center(
               child: Column(
@@ -87,8 +94,9 @@ class InfoCard extends StatelessWidget {
       elevation: 2.0,
       child: Container(
         width: MediaQuery.of(context).size.width / 3.5,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8.0),
