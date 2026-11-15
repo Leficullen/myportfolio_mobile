@@ -33,24 +33,62 @@ class MyHomePage extends StatelessWidget {
 
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
+        child:
+
+        Column(
           crossAxisAlignment: CrossAxisAlignment.center,
 
           children: [
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: InfoCard(title: "Name", content: name),
+
+            Row(
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        elevation: 4,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 3,
+                          vertical: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        "Logout",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
-                  Expanded(
-                    child: InfoCard(title: "NPM", content: npm),
-                  ),
-                  Expanded(
-                    child: InfoCard(title: "Class", content: kelas),
-                  ),
-                ],
+
+                )
+
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top:20),
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: InfoCard(title: "Name", content: name),
+                    ),
+                    Expanded(
+                      child: InfoCard(title: "NPM", content: npm),
+                    ),
+                    Expanded(
+                      child: InfoCard(title: "Class", content: kelas),
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -68,6 +106,7 @@ class MyHomePage extends StatelessWidget {
                   //     ),
                   //   ),
                   // ),
+
 
                   Column(
                     children: [
