@@ -7,63 +7,180 @@ class MyHomePage extends StatelessWidget {
   final String npm = "2506550721";
   final String kelas = "PBP F";
 
-  final List<ItemHomePage> items = [
-    ItemHomePage("Lihat Proyek", Icons.folder),
-    ItemHomePage("Tambah Proyek", Icons.add_circle),
-    ItemHomePage("Logout", Icons.logout),
+  final List<ItemHomePage> projectItems = [
+    ItemHomePage("Lihat Proyek", Icons.folder_copy_sharp, Colors.red),
+    ItemHomePage("Tambah Proyek", Icons.add_circle, Colors.blue),
+  ];
+
+  final List<ItemHomePage> experienceItems = [
+    ItemHomePage("Lihat Experience", Icons.cases_rounded, Colors.green),
+    ItemHomePage("Tambah Experience", Icons.add_circle, Colors.amber),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "MyPortfolio",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
 
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
+        child:
+
+        Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+
           children: [
+
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InfoCard(title: "NPM", content: npm),
-                InfoCard(title: "Name", content: name),
-                InfoCard(title: "Class", content: kelas),
-              ],
-            ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
 
-            const SizedBox(height: 16),
-
-            Center(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Text(
-                      "Selamat datang di myportfolio mobile",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        elevation: 4,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 3,
+                          vertical: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        "Logout",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
 
-                  GridView.count(
-                    primary: true,
-                    padding: const EdgeInsets.all(20),
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 3,
-                    shrinkWrap: true,
-                    children: items.map((ItemHomePage item) {
-                      return ItemCard(item);
-                    }).toList(),
+                )
+
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top:20),
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: InfoCard(title: "Name", content: name),
+                    ),
+                    Expanded(
+                      child: InfoCard(title: "NPM", content: npm),
+                    ),
+                    Expanded(
+                      child: InfoCard(title: "Class", content: kelas),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            Center(
+              child: Column(
+                children: [
+                  // const Padding(
+                  //   padding: EdgeInsets.only(top: 16),
+                  //   child: Text(
+                  //     "Selamat datang di myportfolio mobile",
+                  //     style: TextStyle(
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 18,
+                  //       color: Colors.white,
+                  //     ),
+                  //   ),
+                  // ),
+
+
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.all(2),
+                            child: const Text(
+                              "Projects Section: ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: GridView.count(
+                          primary: true,
+                          childAspectRatio: 16 / 9,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          children: projectItems.map((ItemHomePage item) {
+                            return ItemCard(item);
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.all(2),
+                            child: const Text(
+                              "Experince Section",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+
+                        child: GridView.count(
+                          primary: true,
+                          childAspectRatio: 16 / 9,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          children: experienceItems.map((ItemHomePage item) {
+                            return ItemCard(item);
+                          }).toList(),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -87,8 +204,9 @@ class InfoCard extends StatelessWidget {
       elevation: 2.0,
       child: Container(
         width: MediaQuery.of(context).size.width / 3.5,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8.0),
@@ -103,8 +221,9 @@ class InfoCard extends StatelessWidget {
 class ItemHomePage {
   final String name;
   final IconData icon;
+  final Color color;
 
-  ItemHomePage(this.name, this.icon);
+  ItemHomePage(this.name, this.icon, this.color);
 }
 
 class ItemCard extends StatelessWidget {
@@ -114,7 +233,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.secondary,
+      color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
