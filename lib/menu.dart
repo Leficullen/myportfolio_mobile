@@ -7,10 +7,9 @@ class MyHomePage extends StatelessWidget {
   final String npm = "2506550721";
   final String kelas = "PBP F";
 
-  final List<ItemHomePage> items = [
-    ItemHomePage("Lihat Proyek", Icons.folder, Colors.red),
+  final List<ItemHomePage> projectItems = [
+    ItemHomePage("Lihat Proyek", Icons.folder_copy_sharp, Colors.red),
     ItemHomePage("Tambah Proyek", Icons.add_circle, Colors.blue),
-    ItemHomePage("Logout", Icons.logout, Colors.amber),
   ];
 
   @override
@@ -61,16 +60,42 @@ class MyHomePage extends StatelessWidget {
                     ),
                   ),
 
-                  GridView.count(
-                    primary: true,
-                    padding: const EdgeInsets.all(20),
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 3,
-                    shrinkWrap: true,
-                    children: items.map((ItemHomePage item) {
-                      return ItemCard(item);
-                    }).toList(),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.all(2),
+                            child: const Text(
+                              "Projects Section: ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: GridView.count(
+                          primary: true,
+                          childAspectRatio: 16 / 9,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          children: projectItems.map((ItemHomePage item) {
+                            return ItemCard(item);
+                          }).toList(),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
