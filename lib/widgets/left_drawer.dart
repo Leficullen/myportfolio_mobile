@@ -27,7 +27,7 @@ class LeftDrawer extends StatelessWidget {
             )
                 //header
           ),
-          Divider(thickness: 1, color: Colors.black26),
+          Divider(thickness: 1, color: Colors.black26, indent: 20, endIndent: 20,),
           //routing
           ListTile(
             leading: const Icon(Icons.home),
