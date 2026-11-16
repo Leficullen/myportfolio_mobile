@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myportfolio_mobile/projects_page.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -8,7 +9,7 @@ class MyHomePage extends StatelessWidget {
   final String kelas = "PBP F";
 
   final List<ItemHomePage> projectItems = [
-    ItemHomePage("Lihat Proyek", Icons.folder_copy_sharp, Colors.red),
+    ItemHomePage("Lihat Proyek", Icons.folder_copy_sharp, Colors.red, page: const ProjectsPage()),
     ItemHomePage("Tambah Proyek", Icons.add_circle, Colors.blue),
   ];
 
@@ -33,13 +34,10 @@ class MyHomePage extends StatelessWidget {
 
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child:
-
-        Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
 
           children: [
-
             Row(
               children: [
                 Expanded(
@@ -66,14 +64,12 @@ class MyHomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                )
-
+                ),
               ],
             ),
 
             Padding(
-              padding: const EdgeInsets.only(top:20),
+              padding: const EdgeInsets.only(top: 20),
               child: IntrinsicHeight(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,7 +102,6 @@ class MyHomePage extends StatelessWidget {
                   //     ),
                   //   ),
                   // ),
-
 
                   Column(
                     children: [
@@ -222,8 +217,9 @@ class ItemHomePage {
   final String name;
   final IconData icon;
   final Color color;
+  final Widget? page;
 
-  ItemHomePage(this.name, this.icon, this.color);
+  ItemHomePage(this.name, this.icon, this.color, {this.page});
 }
 
 class ItemCard extends StatelessWidget {
@@ -237,6 +233,12 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
+          if (item.page != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => item.page!),
+            );
+          }
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
