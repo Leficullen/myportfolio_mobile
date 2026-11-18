@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myportfolio_mobile/menu.dart';
+import 'package:myportfolio_mobile/screens/menu.dart';
 import 'package:myportfolio_mobile/projects_page.dart';
-import 'package:myportfolio_mobile/project_form.dart';
+import 'package:myportfolio_mobile/screens/project_form.dart';
 
 class LeftDrawer extends StatelessWidget {
   const new({super.key});
