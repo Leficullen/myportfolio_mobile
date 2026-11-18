@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myportfolio_mobile/projects_page.dart';
+import 'package:myportfolio_mobile/project_form.dart';
 import 'package:myportfolio_mobile/widgets/left_drawer.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -16,7 +17,9 @@ class MyHomePage extends StatelessWidget {
       Colors.red,
       page: const ProjectsPage(),
     ),
-    ItemHomePage("Tambah Proyek", Icons.add_circle, Colors.blue),
+    ItemHomePage("Tambah Proyek", Icons.add_circle, Colors.blue,
+      page: const ProjectFormPage(),
+    ),
   ];
 
   final List<ItemHomePage> experienceItems = [
@@ -241,17 +244,17 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}")),
+            );
           if (item.page != null) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => item.page!),
             );
           }
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}")),
-            );
         },
         child: Container(
           padding: EdgeInsets.all(8),
