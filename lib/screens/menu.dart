@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myportfolio_mobile/projects_page.dart';
+import 'package:myportfolio_mobile/screens/experience_form.dart';
 import 'package:myportfolio_mobile/screens/project_form.dart';
 import 'package:myportfolio_mobile/widgets/project_card.dart';
 import 'package:myportfolio_mobile/widgets/left_drawer.dart';
@@ -25,7 +26,7 @@ class MyHomePage extends StatelessWidget {
 
   final List<ItemHomePage> experienceItems = [
     ItemHomePage("Lihat Experience", Icons.cases_rounded, Colors.green),
-    ItemHomePage("Tambah Experience", Icons.add_circle, Colors.amber),
+    ItemHomePage("Tambah Experience", Icons.add_circle, Colors.amber, page: const ExperienceFormPage()),
   ];
 
   @override

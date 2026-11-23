@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myportfolio_mobile/screens/experience_form.dart';
 import 'package:myportfolio_mobile/screens/menu.dart';
 import 'package:myportfolio_mobile/projects_page.dart';
 import 'package:myportfolio_mobile/screens/project_form.dart';
@@ -54,6 +55,13 @@ class LeftDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const ProjectFormPage()),
             ),
           ),
+          ListTile(
+            leading: const Icon(Icons.add_circle_outline),
+            title: Text("Add Exprience", style: TextStyle(fontWeight: FontWeight.bold)),
+            onTap: () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ExperienceFormPage()),
+            ) ,
+          )
         ],
       ),
     );
