@@ -69,6 +69,9 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                   decoration: InputDecoration(
                     hintText: "Experience Description",
                     labelText: "Experience Description",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0)
+                    )
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -89,6 +92,9 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                   decoration: InputDecoration(
                     hintText: "Experience Category",
                     labelText: "Experience Category",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0)
+                    )
                   ),
                   initialValue: _category,
                   items: _categories
@@ -112,6 +118,9 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                   decoration: InputDecoration(
                     hintText: "Experience Status",
                     labelText: "Experience Status",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0)
+                    )
                   ),
                   initialValue: _status,
                   items: _statusses
