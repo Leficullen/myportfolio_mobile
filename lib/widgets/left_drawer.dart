@@ -1,67 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:myportfolio_mobile/screens/experience_form.dart';
-import 'package:myportfolio_mobile/screens/menu.dart';
+import 'package:provider/provider.dart';
 import 'package:myportfolio_mobile/projects_page.dart';
+import 'package:myportfolio_mobile/screens/experience_form.dart';
+import 'package:myportfolio_mobile/screens/login_screen.dart';
+import 'package:myportfolio_mobile/screens/menu.dart';
 import 'package:myportfolio_mobile/screens/project_form.dart';
+import 'package:myportfolio_mobile/services/auth_state.dart';
+import 'package:myportfolio_mobile/widgets/auth_guard.dart';
 
 class LeftDrawer extends StatelessWidget {
-  const new({super.key});
+  const LeftDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<AuthState>().isLoggedIn;
+    void replace(Widget page) => Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => page),
+    );
     return Drawer(
-      shape: const RoundedRectangleBorder(),
       width: 230,
       backgroundColor: Theme.of(context).colorScheme.surface,
-
       child: ListView(
         children: [
-           Container(
-            padding: EdgeInsets.only(bottom: 20),
-            child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("Leficullen ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Theme.of(context).colorScheme.primary)),
-                SizedBox(height: 10,),
-                Text("Explore My Portfolio", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Theme.of(context).colorScheme.primary)),
-              ],
-            )
-                //header
+          const SizedBox(height: 20),
+          Center(
+            child: Text(
+              'Leficullen',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
           ),
-          Divider(thickness: 1, color: Colors.black26, indent: 20, endIndent: 20,),
-          //routing
+          const SizedBox(height: 10),
+          const Center(
+            child: Text(
+              'Explore My Portfolio',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          const Divider(indent: 20, endIndent: 20),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("Home", style: TextStyle(fontWeight: FontWeight.bold)),
-            onTap: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
-            ),
+            title: const Text('Home'),
+            onTap: () => replace(MyHomePage()),
           ),
           ListTile(
             leading: const Icon(Icons.folder_copy),
-            title: Text("Projects", style: TextStyle(fontWeight: FontWeight.bold)),
-            onTap: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => ProjectsPage()),
-            ),
+            title: const Text('Projects'),
+            onTap: () => replace(const ProjectsPage()),
           ),
           ListTile(
             leading: const Icon(Icons.add_circle_outline),
-            title: const Text("Add Project", style: TextStyle(fontWeight: FontWeight.bold)),
-            onTap: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const ProjectFormPage()),
-            ),
+            title: const Text('Add Project'),
+            onTap: () async {
+              Navigator.pop(context);
+              if (await ensureLoggedIn(context) && context.mounted) {
+                replace(const ProjectFormPage());
+              }
+            },
           ),
           ListTile(
             leading: const Icon(Icons.add_circle_outline),
-            title: Text("Add Exprience", style: TextStyle(fontWeight: FontWeight.bold)),
-            onTap: () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const ExperienceFormPage()),
-            ) ,
-          )
+            title: const Text('Add Experience'),
+            onTap: () => replace(const ExperienceFormPage()),
+          ),
+          ListTile(
+            leading: Icon(isLoggedIn ? Icons.logout : Icons.login),
+            title: Text(isLoggedIn ? 'Logout' : 'Login'),
+            onTap: () async {
+              Navigator.pop(context);
+              if (!isLoggedIn) {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute<bool>(builder: (_) => const LoginScreen()),
+                );
+              } else {
+                var failed = false;
+                try {
+                  await context.read<AuthState>().logout();
+                } catch (_) {
+                  failed = true;
+                }
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        failed
+                            ? 'Logged out locally; server logout failed.'
+                            : 'Logged out.',
+                      ),
+                    ),
+                  );
+                }
+              }
+            },
+          ),
         ],
       ),
     );

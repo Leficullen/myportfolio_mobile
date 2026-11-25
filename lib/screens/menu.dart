@@ -4,6 +4,8 @@ import 'package:myportfolio_mobile/screens/experience_form.dart';
 import 'package:myportfolio_mobile/screens/project_form.dart';
 import 'package:myportfolio_mobile/widgets/project_card.dart';
 import 'package:myportfolio_mobile/widgets/left_drawer.dart';
+import 'package:myportfolio_mobile/services/auth_state.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -19,14 +21,22 @@ class MyHomePage extends StatelessWidget {
       Colors.red,
       page: const ProjectsPage(),
     ),
-    ItemHomePage("Tambah Proyek", Icons.add_circle, Colors.blue,
+    ItemHomePage(
+      "Tambah Proyek",
+      Icons.add_circle,
+      Colors.blue,
       page: const ProjectFormPage(),
     ),
   ];
 
   final List<ItemHomePage> experienceItems = [
     ItemHomePage("Lihat Experience", Icons.cases_rounded, Colors.green),
-    ItemHomePage("Tambah Experience", Icons.add_circle, Colors.amber, page: const ExperienceFormPage()),
+    ItemHomePage(
+      "Tambah Experience",
+      Icons.add_circle,
+      Colors.amber,
+      page: const ExperienceFormPage(),
+    ),
   ];
 
   @override
@@ -40,7 +50,6 @@ class MyHomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-
       ),
       drawer: const LeftDrawer(),
       backgroundColor: Theme.of(context).colorScheme.primary,
@@ -58,7 +67,27 @@ class MyHomePage extends StatelessWidget {
                     alignment: Alignment.centerRight,
 
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: context.watch<AuthState>().isLoggedIn
+                          ? () async {
+                              var failed = false;
+                              try {
+                                await context.read<AuthState>().logout();
+                              } catch (_) {
+                                failed = true;
+                              }
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      failed
+                                          ? 'Logged out locally; server logout failed.'
+                                          : 'Logged out.',
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
+                          : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
@@ -234,4 +263,3 @@ class ItemHomePage {
 
   ItemHomePage(this.name, this.icon, this.color, {this.page});
 }
-
