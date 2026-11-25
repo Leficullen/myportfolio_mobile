@@ -167,4 +167,19 @@ void main() {
     await tester.tap(find.text('OK'));
     await tester.pumpAndSettle();
   });
+  testWidgets('home remains usable in a short browser viewport', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 744);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(const MyApp());
+    expect(tester.takeException(), isNull);
+    await tester.ensureVisible(find.text('Tambah Experience'));
+    await tester.tap(find.text('Tambah Experience'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Experience Form'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 }
