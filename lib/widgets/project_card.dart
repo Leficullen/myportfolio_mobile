@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myportfolio_mobile/screens/menu.dart';
+import 'package:myportfolio_mobile/screens/project_form.dart';
+import 'package:myportfolio_mobile/widgets/auth_guard.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemHomePage item;
@@ -11,12 +13,16 @@ class ItemCard extends StatelessWidget {
       color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(content: Text("Kamu telah menekan tombol ${item.name}")),
             );
+          if (item.page is ProjectFormPage && !await ensureLoggedIn(context)) {
+            return;
+          }
+          if (!context.mounted) return;
           if (item.page != null) {
             Navigator.push(
               context,

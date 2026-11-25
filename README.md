@@ -96,3 +96,29 @@ Contohnya, Experience Name yang kosong atau hanya berisi spasi ditolak karena va
 
 ## AI Disclosure
 Dalam mengerjakan tugas ini, saya tidak menggnakan bantuan AI apapun, karena mostly materinya sudah tercover di Tutorial 9. Jika saya mendapati kesulitan, saya membuka kembali codebase Tutorial 9 dan mencari kesalahannya sendiri.
+
+## Tutorial 10: Backend integration
+
+Projects are loaded from the Django `/api/v1/projects/` API. The app uses the
+backend's `url_link` and `image` field names. Project creation requires a
+superuser token; the token is kept in memory and is cleared on logout or app
+restart. The experience form remains local as in Assignment 8.
+
+After `flutter pub get`, generate the JSON serialization code before running,
+testing, or building:
+
+```sh
+dart run build_runner build --delete-conflicting-outputs
+flutter run --dart-define=API_BASE_URL=http://localhost:8000 -d chrome
+```
+
+The default URL is `http://10.0.2.2:8000` for an Android emulator. Use a
+reachable HTTPS backend with `--dart-define=API_BASE_URL=https://your-host`
+for release builds. Local cleartext HTTP is enabled only in Android debug
+builds. Set the GitHub Actions repository variable `API_BASE_URL` to the
+backend origin (without a trailing slash) for a usable release APK artifact.
+If unset, the build uses the emulator default.
+
+The Django backend must enable DRF token authentication and CORS, expose token
+and logout endpoints, and run its migrations. The Django server must be running
+and reachable for end-to-end testing.
