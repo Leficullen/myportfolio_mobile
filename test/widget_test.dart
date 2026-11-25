@@ -125,4 +125,46 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Tech stack: Flutter'), findsOneWidget);
   });
+  testWidgets('drawer login opens form and submits a project', (tester) async {
+    final api = ApiClient(
+      client: MockClient((request) async {
+        if (request.url.path.endsWith('/token/')) {
+          return http.Response('{"token":"secret"}', 200);
+        }
+        if (request.method == 'POST' &&
+            request.url.path.endsWith('/projects/')) {
+          expect(request.headers['authorization'], 'Token secret');
+          return http.Response(jsonEncode(projectJson), 201);
+        }
+        return http.Response('', 404);
+      }),
+    );
+    addTearDown(api.close);
+    tester.view.physicalSize = const Size(1080, 1920);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(MyApp(apiClient: api));
+    await tester.tap(find.byTooltip('Open navigation menu'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Add Project'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextFormField).at(0), 'owner');
+    await tester.enterText(find.byType(TextFormField).at(1), 'secret');
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Login'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ProjectFormPage), findsOneWidget);
+    final fields = find.byType(TextFormField);
+    await tester.enterText(fields.at(0), 'Portfolio');
+    await tester.enterText(fields.at(1), 'A project');
+    await tester.enterText(fields.at(2), 'Flutter');
+    await tester.enterText(fields.at(3), 'https://example.com');
+    await tester.ensureVisible(find.text('Save'));
+    await tester.tap(find.text('Save'));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    expect(find.text('Project added'), findsOneWidget);
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+  });
 }

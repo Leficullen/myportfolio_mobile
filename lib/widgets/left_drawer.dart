@@ -14,10 +14,11 @@ class LeftDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = context.watch<AuthState>().isLoggedIn;
-    void replace(Widget page) => Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => page),
-    );
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final auth = context.read<AuthState>();
+    void replace(Widget page) =>
+        navigator.pushReplacement(MaterialPageRoute(builder: (_) => page));
     return Drawer(
       width: 230,
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -57,7 +58,8 @@ class LeftDrawer extends StatelessWidget {
             title: const Text('Add Project'),
             onTap: () async {
               Navigator.pop(context);
-              if (await ensureLoggedIn(context) && context.mounted) {
+              if (await ensureLoggedIn(navigator.context) &&
+                  navigator.mounted) {
                 replace(const ProjectFormPage());
               }
             },
@@ -73,19 +75,18 @@ class LeftDrawer extends StatelessWidget {
             onTap: () async {
               Navigator.pop(context);
               if (!isLoggedIn) {
-                await Navigator.push(
-                  context,
+                await navigator.push(
                   MaterialPageRoute<bool>(builder: (_) => const LoginScreen()),
                 );
               } else {
                 var failed = false;
                 try {
-                  await context.read<AuthState>().logout();
+                  await auth.logout();
                 } catch (_) {
                   failed = true;
                 }
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
+                if (messenger.mounted) {
+                  messenger.showSnackBar(
                     SnackBar(
                       content: Text(
                         failed
